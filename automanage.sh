@@ -32,23 +32,32 @@ prompt "Do you still wish to run the script?" && {
 	echo
 	echo "-----"
 	echo "Installing diagnostic tools and necessary packages..."
-	
 	echo
 	apt install speedtest-cli -y
 	echo
-	apt install ufw -y
+	sudo mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+	&& sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+	&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+	&& sudo apt update \
+	&& sudo apt install gh -y
 	echo
 	apt install git -y
 	echo
 	apt install net-tools -y
-	echo
-	apt install iptables-persistent -y
 	echo
 	apt install snapd -y
 	echo
 	apt install unattended-upgrades -y
 	echo
 	apt install curl -y
+	prompt "Do you want to attempt to install firewall management tools?" && {
+		echo
+		apt install iptables-persistent -y
+		echo
+		apt install ufw -y
+		echo
+		apt install firewalld -y
+	}
 
 	echo
 	prompt "Do you want to install the latest LTS build of NodeJS?" && {
@@ -76,10 +85,15 @@ prompt "Do you still wish to run the script?" && {
 	prompt "Do you want to install Docker?" && {
 		echo
 		
-		apt install ca-certificates curl gnupg
+		apt install ca-certificates
 		install -m 0755 -d /etc/apt/keyrings
-		curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-		chmod a+r /etc/apt/keyrings/docker.gpg
+		curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+		sudo chmod a+r /etc/apt/keyrings/docker.asc
+		echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+		apt update
 
 		apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 	
@@ -116,20 +130,21 @@ prompt "Do you still wish to run the script?" && {
 	ufw allow OpenSSH
 
 	echo
-	prompt "Do you wish to configure the firewall for web traffic?" && {
+	prompt "Do you wish to configure the firewall for web traffic? (80/tcp, 443/tcp, 3000/tcp, 8080/tcp)" && {
 		ufw allow 80/tcp
 		ufw allow 443/tcp
+		ufw allow 3000/tcp
 		ufw allow 8080/tcp
 	}
 
 	echo
-	prompt "Do you wish to configure the firewall for Minecraft traffic?" && ufw allow 25565/tcp
+	prompt "Do you wish to configure the firewall for Minecraft traffic? (25565/tcp)" && ufw allow 25565/tcp
 
 	echo
-	prompt "Do you wish to configure the firewall for Plex traffic?" && ufw allow 32400/tcp
+	prompt "Do you wish to configure the firewall for Plex traffic? (32400/tcp)" && ufw allow 32400/tcp
 
 	echo
-	prompt "Do you wish to configure the firewall for Wireguard traffic?" && ufw allow 51820/udp
+	prompt "Do you wish to configure the firewall for Wireguard traffic? (51820/udp)" && ufw allow 51820/udp
 
 	echo
 	echo "Enabling firewall. SSH connections will not be disconnected. Answer y to confirm."
