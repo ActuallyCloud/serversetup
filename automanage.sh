@@ -104,61 +104,6 @@ prompt "Do you still wish to run the script?" && {
 		docker run hello-world
 	}
 
-	echo
-	echo "-----"
-	echo "Removing existing firewall rules in iptables and firewalld. You may see error messages..."
-	
-	echo
-	iptables --flush
-	iptables -P INPUT ACCEPT
-	iptables -P FORWARD ACCEPT
-	iptables -P OUTPUT ACCEPT
-	iptables-save
-	
-	echo
-	rm -rf /etc/firewalld/zones
-	systemctl restart firewalld
-	
-	echo
-	ufw --force reset
-
-	echo
-	echo "Setting up firewall..."
-	
-	echo
-	ufw disable
-	ufw allow OpenSSH
-
-	echo
-	prompt "Do you wish to configure the firewall for web traffic? (80/tcp, 443/tcp, 3000/tcp, 8080/tcp)" && {
-		ufw allow 80/tcp
-		ufw allow 443/tcp
-		ufw allow 3000/tcp
-		ufw allow 8080/tcp
-	}
-
-	echo
-	prompt "Do you wish to configure the firewall for Minecraft traffic? (25565/tcp)" && ufw allow 25565/tcp
-
-	echo
-	prompt "Do you wish to configure the firewall for Plex traffic? (32400/tcp)" && ufw allow 32400/tcp
-
-	echo
-	prompt "Do you wish to configure the firewall for Wireguard traffic? (51820/udp)" && ufw allow 51820/udp
-
-	echo
-	echo "Enabling firewall. SSH connections will not be disconnected. Answer y to confirm."
-	
-	echo
-	ufw enable
-
-	echo
-	echo "Check firewall status below."
-	
-	echo
-	ufw status
-
-	echo 
 	echo "------"
 	echo "Server setup has finished. Rebooting..."
 
