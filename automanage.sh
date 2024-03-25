@@ -52,6 +52,8 @@ prompt "Do you still wish to run the script?" && {
 	apt install curl -y
 	prompt "Do you want to attempt to install firewall management tools?" && {
 		echo
+		apt install iptables -y
+		echo
 		apt install iptables-persistent -y
 		echo
 		apt install ufw -y
