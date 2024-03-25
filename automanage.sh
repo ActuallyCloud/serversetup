@@ -55,8 +55,6 @@ prompt "Do you still wish to run the script?" && {
 		apt install iptables-persistent -y
 		echo
 		apt install ufw -y
-		echo
-		apt install firewalld -y
 	}
 
 	echo
