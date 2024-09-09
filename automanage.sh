@@ -42,9 +42,13 @@ prompt "Do you still wish to run the script?" && {
 	apt install speedtest-cli git net-tools snapd unattended-upgrades -y
 	echo
 
-	prompt "Do you want to attempt to install firewall management tools?" && {
+	prompt "Do you want to attempt to install firewall management tools? (You can choose individually for each tool)" && {
 		echo
-		apt install iptables iptables-persistent ufw firewalld -y
+		prompt "Do you want to install iptables? (Not recommended)" && apt install iptables iptables-persistent -y
+		echo
+		prompt "Do you want to install ufw?" && apt install ufw -y
+		echo
+		prompt "Do you want to install firewalld?" && apt install firewalld -y
 	}
 
 	echo
