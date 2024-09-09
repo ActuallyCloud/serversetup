@@ -33,30 +33,18 @@ prompt "Do you still wish to run the script?" && {
 	echo "-----"
 	echo "Installing diagnostic tools and necessary packages..."
 	echo
-	apt install speedtest-cli -y
-	echo
 	sudo mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
 	&& sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
 	&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
 	&& sudo apt update \
 	&& sudo apt install gh -y
 	echo
-	apt install git -y
+	apt install speedtest-cli git net-tools snapd unattended-upgrades -y
 	echo
-	apt install net-tools -y
-	echo
-	apt install snapd -y
-	echo
-	apt install unattended-upgrades -y
-	echo
-	apt install curl -y
+
 	prompt "Do you want to attempt to install firewall management tools?" && {
 		echo
-		apt install iptables -y
-		echo
-		apt install iptables-persistent -y
-		echo
-		apt install ufw -y
+		apt install iptables iptables-persistent ufw firewalld -y
 	}
 
 	echo
@@ -79,6 +67,10 @@ prompt "Do you still wish to run the script?" && {
 		prompt "Do you want to install JDK 8?" && apt install openjdk-8-jdk -y
 		echo
 		prompt "Do you want to install JDK 17?" && apt install openjdk-17-jdk -y 
+		echo
+		prompt "Do you want to install JDK 18?" && apt install openjdk-18-jdk -y 
+		echo
+		prompt "Do you want to install JDK 19?" && apt install openjdk-19-jdk -y 
 	}
 
 	echo
@@ -105,8 +97,8 @@ prompt "Do you still wish to run the script?" && {
 	}
 
 	echo "------"
-	echo "Server setup has finished. Rebooting..."
+	echo "Server setup has finished. Rebooting in 5..."
 
-	sleep 3
+	sleep 5
 	reboot
 }
