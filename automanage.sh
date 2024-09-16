@@ -39,7 +39,7 @@ prompt "Do you still wish to run the script?" && {
 	&& sudo apt update \
 	&& sudo apt install gh -y
 	echo
-	apt install speedtest-cli git net-tools snapd unattended-upgrades -y
+	apt install speedtest-cli git net-tools snapd unattended-upgrades zip unzip -y
 	echo
 
 	prompt "Do you want to attempt to install firewall management tools? (You can choose individually for each tool)" && {
