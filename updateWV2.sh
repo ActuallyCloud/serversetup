@@ -15,13 +15,13 @@ prompt "Do you still wish to run the script?" && {
     pm2 delete wv2
 
     echo "-----"
-    echo "Removing old ACLD-Next..."
+    echo "Removing old Wellness..."
     echo ""
 
-    rm -rf /ACLD-Next
+    rm -rf /wellness2
 
     echo "-----"
-    echo "Cloning current ACLD-Next..."
+    echo "Cloning current Wellness..."
     echo ""
 
     gh repo clone ActuallyCloud/wellness2
@@ -34,7 +34,7 @@ prompt "Do you still wish to run the script?" && {
     npm install
 
     echo "-----"
-    echo "Starting new ACLD-Next..."
+    echo "Starting new Wellness..."
     echo ""
 
     pm2 start wv2.js
