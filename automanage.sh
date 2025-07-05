@@ -9,7 +9,7 @@ echo "Note: Minimal user intervention may be required. Don't walk away!"
 echo
 echo "Warning: This script may be destructive if you run it in anything other than a new development environment."
 
-prompt "Do you still wish to run the script?" && {
+prompt "Do you still wish to run the script? (y to confirm)" && {
 	echo
 	echo "-----"
 	echo "Updating server registries..."
@@ -39,7 +39,7 @@ prompt "Do you still wish to run the script?" && {
 	&& sudo apt update \
 	&& sudo apt install gh -y
 	echo
-	apt install speedtest-cli git net-tools snapd unattended-upgrades zip unzip -y
+	apt install speedtest-cli git gh net-tools snapd unattended-upgrades zip unzip -y
 	echo
 
 	prompt "Do you want to attempt to install firewall management tools? (You can choose individually for each tool)" && {
@@ -52,7 +52,7 @@ prompt "Do you still wish to run the script?" && {
 	}
 
 	echo
-	prompt "Do you want to install the latest LTS build of NodeJS?" && {
+	prompt "Do you want to install the latest LTS build of NodeJS? (y to confirm)" && {
 		echo
 		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 		source ~/.bashrc
@@ -66,7 +66,7 @@ prompt "Do you still wish to run the script?" && {
 	}
 
 	echo	
-	prompt "Do you want to install a Java build?" && {
+	prompt "Do you want to install a Java build? (y to confirm)" && {
 		echo
 		prompt "Do you want to install JDK 8?" && apt install openjdk-8-jdk -y
 		echo
@@ -78,7 +78,7 @@ prompt "Do you still wish to run the script?" && {
 	}
 
 	echo
-	prompt "Do you want to install Docker?" && {
+	prompt "Do you want to install Docker? (y to confirm)" && {
 		echo
 		
 		apt install ca-certificates
