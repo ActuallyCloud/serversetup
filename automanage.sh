@@ -54,12 +54,10 @@ prompt "Do you still wish to run the script? (y to confirm)" && {
 	echo
 	prompt "Do you want to install the latest LTS build of NodeJS? (y to confirm)" && {
 		echo
-		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-		source ~/.bashrc
-		export NVM_DIR="$HOME/.nvm"
-		[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-		[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+		\. "$HOME/.nvm/nvm.sh"
 		nvm install --lts
+
 		echo
 		echo "Installed Node version:"
 		node -v
